@@ -6,7 +6,7 @@ import pandas as pd
 from PIL import Image
 import os
 import base64
-st.set_page_config(page_title="IOT Middleware Selection ",layout="wide")
+st.set_page_config(page_title="IOT Middleware Selection ",layout="wide", page_icon = "favicon.png")
 #for image rendering with link, magic from https://discuss.streamlit.io/t/href-on-image/9693/4
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(bin_file):
@@ -23,9 +23,6 @@ def get_img_with_href(local_img_path, target_url,width="1"):
             <img style="width: {width}%" src="data:image/{img_format};base64,{bin_str} " />
         </a>'''
     return html_code
-#-------------------------------------------------------------------------------------------------------
-#Logo_html = get_img_with_href('Logo.PNG', 'https://www.nweurope.eu/projects/project-search/di-plast-digital-circular-economy-for-the-plastics-industry/',width="100")
-#st.sidebar.markdown(Logo_html, unsafe_allow_html=True)
 
 
 list_categories_money_inital=["<25.000 €","<50.000 €","<100.000 €",">100000 €"]
@@ -33,21 +30,33 @@ list_categories_money_anual=["<25.000 €","<50.000 €","<100.000 €",">100000
 list_categories_workload_initial=["<160 hrs €","<480 hrs","<960 hrs",">960 hrs "]
 list_categories_workload_anual=["<160 hrs €","<480 hrs","<960 hrs",">960 hrs "]
 
+#--------------------------------SIDEBAR-----------------------------------------------------------------------
+Logo_html = get_img_with_href('Logo.PNG', 'https://www.nweurope.eu/projects/project-search/di-plast-digital-circular-economy-for-the-plastics-industry/',width="90")
+st.sidebar.markdown(Logo_html, unsafe_allow_html=True)
 
 
+#image = Image.open('Logo.png')
 #st.sidebar.image(image, width=250)
 st.sidebar.title('IOT MiddleWare Selection')
-
-
 
 money_initial=st.sidebar.selectbox("Initial Budget",list_categories_money_inital,help="Please select your initial software budget​")
 money_anual=st.sidebar.selectbox("Anual Budget",list_categories_money_anual,help="Please select your anual software budget​")
 time_initiall=st.sidebar.selectbox("Workload initial ",list_categories_workload_initial,help="Please select your initial available workload")
 time_anual=st.sidebar.selectbox("Workload anual ",list_categories_workload_anual,help="Please select your anual available workload")
 
+
+
+
+
+
+SKZ_Logo_html = get_img_with_href('SKZ-Logo.png', 'https://www.skz.de',width="90")
+st.sidebar.markdown(SKZ_Logo_html, unsafe_allow_html=True)
+
+st.sidebar.caption("[Bug reports and suggestions welcome ](mailto:c.kugler@skz.de)")
+
 col1 ,col2,col3= st.columns((5,1,5))
 
-
+#---------------------------------------SIDEBAR END----------------------------------------------------------------------------------------------------------------------------------
 with col1:
     list_products=["ProduktA", "ProduktB","ProduktC"]
     st.header("Product Information", anchor=None)
