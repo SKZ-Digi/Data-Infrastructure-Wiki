@@ -24,11 +24,19 @@ def get_img_with_href(local_img_path, target_url,width="1"):
         </a>'''
     return html_code
 
+if 'load_excel' not in st.session_state:
+    st.session_state['load_excel'] = False
 
-list_categories_money_inital=["<25.000 €","<50.000 €","<100.000 €",">100000 €"]
-list_categories_money_anual=["<25.000 €","<50.000 €","<100.000 €",">100000 €"]
-list_categories_workload_initial=["<160 hrs €","<480 hrs","<960 hrs",">960 hrs "]
-list_categories_workload_anual=["<160 hrs €","<480 hrs","<960 hrs",">960 hrs "]
+#if st.session_state.load_excel==False:
+df=pd.read_excel("Machine_Data_Database_WIP.xlsx", index_col=None,engine='openpyxl')
+    #st.session_state.load_excel=True
+
+#st.write(df.head())
+
+list_categories_money_inital=df.inbudget.unique()
+list_categories_money_anual=df.anbudget.unique()
+list_categories_workload_initial=df.inworkload.unique()
+list_categories_workload_anual=df.anworkload.unique()
 
 #--------------------------------SIDEBAR-----------------------------------------------------------------------
 Logo_html = get_img_with_href('Logo.PNG', 'https://www.nweurope.eu/projects/project-search/di-plast-digital-circular-economy-for-the-plastics-industry/',width="90")
@@ -41,7 +49,7 @@ st.sidebar.title('IOT MiddleWare Selection')
 
 money_initial=st.sidebar.selectbox("Initial Budget",list_categories_money_inital,help="Please select your initial software budget​")
 money_anual=st.sidebar.selectbox("Anual Budget",list_categories_money_anual,help="Please select your anual software budget​")
-time_initiall=st.sidebar.selectbox("Workload initial ",list_categories_workload_initial,help="Please select your initial available workload")
+time_initial=st.sidebar.selectbox("Workload initial ",list_categories_workload_initial,help="Please select your initial available workload")
 time_anual=st.sidebar.selectbox("Workload anual ",list_categories_workload_anual,help="Please select your anual available workload")
 
 
@@ -57,15 +65,18 @@ st.sidebar.caption("[Bug reports and suggestions welcome ](mailto:c.kugler@skz.d
 col1 ,col2,col3= st.columns((5,1,5))
 
 #---------------------------------------SIDEBAR END----------------------------------------------------------------------------------------------------------------------------------
+dffilter = df[(df['inbudget'] ==money_initial) & (df['anbudget'] ==money_anual) & (df['inworkload'] ==time_initial)& (df['anworkload'] ==time_anual)]
+
 with col1:
-    list_products=["ProduktA", "ProduktB","ProduktC"]
+    list_products=dffilter['productname']
     st.header("Product Information", anchor=None)
-    money_initial=st.selectbox("Recommended Products",list_products,help="Choose Product​")
+    products=st.selectbox("Recommended Products",list_products,help="Choose Product​")
+    dfproduct= dffilter[dffilter['productname'] ==products]
     st.header("Description", anchor=None)
-    txt = st.write('DUMMY TEXT!!! The industrial internet of things (IIoT) refers to interconnected sensors, instruments, and other devices networked together with computers industrial applications, including manufacturing and energy management. This connectivity allows for data collection, exchange, and analysis, potentially facilitating improvements in productivity and efficiency as well as other economic benefits.[1] The IIoT is an evolution of a distributed control system (DCS) that allows for a higher degree of automation by using cloud computing to refine and optimize the process controls.')
+    txt = st.write(dfproduct['description'].iloc[0])
     st.subheader("License")
-    st.write("License information")
-    st.write(f"[www.cybus.io](www.cybus.io)")
+    st.write(dfproduct['licensemodel'].iloc[0])
+    st.write(f"[{dfproduct['link'].iloc[0]}({dfproduct['licensemodel'].iloc[0]})")
 
 
 with col3:  
