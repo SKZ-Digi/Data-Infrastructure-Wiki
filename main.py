@@ -67,16 +67,23 @@ col1 ,col2,col3= st.columns((5,1,5))
 #---------------------------------------SIDEBAR END----------------------------------------------------------------------------------------------------------------------------------
 dffilter = df[(df['inbudget'] ==money_initial) & (df['anbudget'] ==money_anual) & (df['inworkload'] ==time_initial)& (df['anworkload'] ==time_anual)]
 
+
 with col1:
     list_products=dffilter['productname']
-    st.header("Product Information", anchor=None)
+    st.header("Product information", anchor=None)
     products=st.selectbox("Recommended Products",list_products,help="Choose Product​")
     dfproduct= dffilter[dffilter['productname'] ==products]
-    st.header("Description", anchor=None)
-    txt = st.write(dfproduct['description'].iloc[0])
-    st.subheader("License")
-    st.write(dfproduct['licensemodel'].iloc[0])
-    st.write(f"[{dfproduct['link'].iloc[0]}({dfproduct['licensemodel'].iloc[0]})")
+    if dfproduct.empty:
+        
+        st.header("no product available for these categories")
+    else:
+        product=dfproduct['description'].iloc[0]
+        st.header("Description", anchor=None)
+        st.write(product)
+        st.subheader("License model")
+        st.write(dfproduct['licensemodel'].iloc[0])
+        st.subheader("Link to product homepage")
+        st.write(dfproduct['link'].iloc[0])
 
 
 with col3:  
