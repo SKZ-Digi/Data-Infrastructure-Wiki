@@ -24,6 +24,52 @@ def get_img_with_href(local_img_path, target_url,width="1"):
         </a>'''
     return html_code
 
+
+#remove colored bar and menu
+#header {visibility: hidden;}
+#MainMenu {visibility: hidden;} #hides Menu in Style
+hide_streamlit_style = """
+            <style>           
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
+#remove colored bar and menu
+#header {visibility: hidden;}
+#MainMenu {visibility: hidden;} #hides Menu in Style
+hide_streamlit_style = """
+            <style>           
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_streamlit_style, unsafe_allow_html=True) 
+
+#remove padding of widgets
+padding = 0
+st.markdown(f""" <style>
+    .reportview-container .main .block-container{{
+        padding-top: {padding}rem;
+        padding-right: {padding}4em;
+        padding-left: {padding}4em;
+        padding-bottom: {padding}rem;
+    }} </style> """, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if 'load_excel' not in st.session_state:
     st.session_state['load_excel'] = False
 
@@ -62,39 +108,30 @@ st.sidebar.markdown(SKZ_Logo_html, unsafe_allow_html=True)
 
 st.sidebar.caption("[Bug reports and suggestions welcome ](mailto:c.kugler@skz.de)")
 
-col1 ,col2,col3= st.columns((5,1,5))
+col1 ,col2,col3= st.columns((5,20,5))
 
 #---------------------------------------SIDEBAR END----------------------------------------------------------------------------------------------------------------------------------
 dffilter = df[(df['inbudget'] ==money_initial) & (df['anbudget'] ==money_anual) & (df['inworkload'] ==time_initial)& (df['anworkload'] ==time_anual)]
 
-
 with col1:
+    st.write("")
+
+with col2:
     list_products=dffilter['productname']
-    st.header("Product information", anchor=None)
-    products=st.selectbox("Recommended Products",list_products,help="Choose Product​")
+    st.header("Product Information", anchor=None)
+    products=st.selectbox("Recommended Products",list_products,help="Choose product for information​")
     dfproduct= dffilter[dffilter['productname'] ==products]
     if dfproduct.empty:
         
-        st.header("no product available for these categories")
+        st.header("No product available for these categories.")
     else:
         product=dfproduct['description'].iloc[0]
         st.header("Description", anchor=None)
         st.write(product)
-        st.subheader("License model")
+        st.subheader("License Model")
         st.write(dfproduct['licensemodel'].iloc[0])
-        st.subheader("Link to product homepage")
+        st.subheader("Link to Product Homepage")
         st.write(dfproduct['link'].iloc[0])
 
-
-with col3:  
-    st.header("Short Overview ")
-    st.header("Pros", anchor=None)  
-    st.write("* pro1")
-    st.write("* pro2")
-    st.write("* pro3")
-    st.header("Cons", anchor=None)  
-    st.write("* con1")
-    st.write("* con2")
-    st.write("* con2")
-
-
+with col3:
+    st.write("")
