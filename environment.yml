@@ -1,0 +1,8 @@
+name: base
+channels:
+  - anaconda
+  - conda-forge
+  - defaults
+dependencies:
+  - openpyxl=3.0.7=pyhd8ed1ab_0
+
