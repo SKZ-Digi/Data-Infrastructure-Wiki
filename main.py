@@ -6,7 +6,7 @@ import pandas as pd
 from PIL import Image
 import os
 import base64
-st.set_page_config(page_title="IOT Middleware Selection ",layout="wide", page_icon = "favicon.png")
+st.set_page_config(page_title="Data Infrastructure Wiki ",layout="wide", page_icon = "favicon.png")
 #for image rendering with link, magic from https://discuss.streamlit.io/t/href-on-image/9693/4
 @st.cache(allow_output_mutation=True)
 def get_base64_of_bin_file(bin_file):
@@ -91,7 +91,7 @@ st.sidebar.markdown(Logo_html, unsafe_allow_html=True)
 
 #image = Image.open('Logo.png')
 #st.sidebar.image(image, width=250)
-st.sidebar.title('IOT MiddleWare Selection')
+st.sidebar.title('Data Infrastructure Wiki')
 
 money_initial=st.sidebar.selectbox("Initial Budget",list_categories_money_inital,help="Please select your initial software budget​")
 money_anual=st.sidebar.selectbox("Anual Budget",list_categories_money_anual,help="Please select your anual software budget​")
